@@ -1,0 +1,90 @@
+<?php
+include("connection.php")
+
+if(isset($_POST['submit'])){
+	$username=$_POST["username"];
+	$password=$_POST["password"];
+
+
+	$sql=" select * from login where username='".$username."' AND password='".$password."' ";
+
+	$result=mysqli_query($conn,$sql);
+
+	$row=mysqli_fetch_array($result);
+
+	if($row["usertype"]=="user")
+	{	
+
+		$_SESSION["username"]=$username;
+
+		header("location:userhome.php");
+	}
+
+	elseif($row["usertype"]=="admin")
+	{
+
+		$_SESSION["username"]=$username;
+		
+		header("location:adminhome.php");
+	}
+
+	else
+	{
+		echo "username or password incorrect";
+	}
+
+}
+ ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type=" text/css " href="./signinstyle.css ">
+    <title>Document</title>
+</head>
+
+<body bgcolor="#f0f8ff">
+    <div>
+        <div class="navigationbar">
+            <nav class="navbar">
+                <div class="logo">MY</div>
+                <ul class="nav-links">
+                    <div class="menu">
+                        <li><a href="html.html" style="text-decoration: none">Home</a></li>
+                        <li><a href="about.html" style="text-decoration: none">About</a></li>
+                        <li><a href="signin.html" style="text-decoration: none">Login</a></li>
+                        <li><a href="contact.html" style="text-decoration: none">Contact</a></li>
+                    </div>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="login-box">
+            <h1>Login</h1>
+            <div class="login_form">
+                <form class="login-form" action="login.php" method="post ">
+                    <div class="user-details">
+                        <div class="input-box">
+                            <span class="details">Username</span>
+                            <input id="username" class="username" type="text " name="username" placeholder="Username">
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Password</span>
+                            <input id="password" class="password" type="password " name="password " placeholder="Password ">
+                        </div>
+                    </div>
+                    <a id="pwdreset " href="#">Forgot password?</a>
+                    <input type="submit" class="submit" id="submit " name="submit " value="Login">
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
